@@ -583,6 +583,21 @@ section {
     gap: 6px;
 }
 
+.portfolio-more {
+    text-align: center;
+    margin-top: 48px;
+    padding: 32px;
+    border: 1px dashed var(--text-dim);
+    border-radius: 16px;
+}
+
+.portfolio-more p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
 /* ── Skills ── */
 .skills-grid {
     display: grid;
