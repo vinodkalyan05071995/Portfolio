@@ -14,10 +14,20 @@
 
 <body>
 
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress"></div>
+
     <!-- Navigation -->
     <nav>
         <div class="container">
             <a href="#" class="logo">VK<span>.</span></a>
+            <button class="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
             <ul class="nav-links">
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#portfolio">Portfolio</a></li>
@@ -65,17 +75,21 @@
                     <div class="orbit-ring"></div>
                     <div class="hero-card">
                         <div class="card-terminal">
-                            <div><span class="prompt">~</span> <span class="key">name:</span> <span class="val">Vinod
-                                    Kalyan</span></div>
-                            <div><span class="prompt">~</span> <span class="key">role:</span> <span class="str">"Freelance Developer"</span></div>
-                            <div><span class="prompt">~</span> <span class="key">status:</span> <span
-                                    class="val" style="color:var(--green)">Available for hire ✓</span></div>
-                            <div><span class="prompt">~</span> <span class="key">location:</span> <span
-                                    class="val">Bengaluru, India</span></div>
-                            <div><span class="prompt">~</span> <span class="key">stack:</span> <span
-                                    class="str">["React", "Shopify", "Node"]</span></div>
-                            <div><span class="prompt">~</span> <span class="key">partner:</span> <span class="val"
-                                    style="color:var(--green)">Shopify Plus ✓</span></div>
+                            <div class="terminal-bar">
+                                <span class="terminal-dot red"></span>
+                                <span class="terminal-dot yellow"></span>
+                                <span class="terminal-dot green"></span>
+                                <span class="terminal-title">vinod@portfolio ~</span>
+                            </div>
+                            <div class="terminal-body">
+                                <div><span class="prompt">~</span> <span class="key">name:</span> <span class="type-line" data-text="Vinod Kalyan"></span></div>
+                                <div><span class="prompt">~</span> <span class="key">role:</span> <span class="type-line str" data-text='"Freelance Developer"'></span></div>
+                                <div><span class="prompt">~</span> <span class="key">status:</span> <span class="type-line" data-text="Available for hire ✓" style="color:var(--green)"></span></div>
+                                <div><span class="prompt">~</span> <span class="key">location:</span> <span class="type-line" data-text="Bengaluru, India"></span></div>
+                                <div><span class="prompt">~</span> <span class="key">stack:</span> <span class="type-line str" data-text='["React", "Shopify", "Node"]'></span></div>
+                                <div><span class="prompt">~</span> <span class="key">partner:</span> <span class="type-line" data-text="Shopify Plus ✓" style="color:var(--green)"></span></div>
+                                <div class="terminal-cursor-line"><span class="prompt">~</span> <span class="blinking-cursor">|</span></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -174,6 +188,30 @@
                         <span class="tag">jQuery</span>
                         <span class="tag">Bootstrap</span>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Strip -->
+    <section class="stats-strip">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item animate-in">
+                    <span class="stat-number" data-target="6" data-suffix="+">0</span>
+                    <span class="stat-label">Years Experience</span>
+                </div>
+                <div class="stat-item animate-in">
+                    <span class="stat-number" data-target="30" data-suffix="+">0</span>
+                    <span class="stat-label">Projects Delivered</span>
+                </div>
+                <div class="stat-item animate-in">
+                    <span class="stat-number" data-target="3" data-suffix="">0</span>
+                    <span class="stat-label">Companies</span>
+                </div>
+                <div class="stat-item animate-in">
+                    <span class="stat-number" data-target="100" data-suffix="%">0</span>
+                    <span class="stat-label">Client Satisfaction</span>
                 </div>
             </div>
         </div>
