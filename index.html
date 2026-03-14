@@ -21,6 +21,14 @@
     <!-- Scroll Progress -->
     <div class="scroll-progress"></div>
 
+    <!-- Animated Background Grid -->
+    <canvas id="grid-canvas"></canvas>
+
+    <!-- Gradient Blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
     <!-- Navigation -->
     <nav>
         <div class="container">
@@ -40,7 +48,6 @@
 
     <!-- Hero -->
     <section class="hero">
-        <div class="hero-glow"></div>
         <div class="container">
             <div class="hero-grid">
                 <div class="hero-content">
@@ -49,16 +56,16 @@
                         Freelancer — Available for Projects
                     </div>
                     <h1>
-                        <span class="line">Design<span class="accent">.</span></span>
-                        <span class="line">Build<span class="accent">.</span></span>
-                        <span class="line"><span class="outline">Scale</span><span class="accent">.</span></span>
+                        <span class="reveal-line"><span>I craft</span></span>
+                        <span class="reveal-line"><span class="gradient-text">digital experiences</span></span>
+                        <span class="reveal-line"><span>that convert<span class="accent">.</span></span></span>
                     </h1>
                     <p class="hero-desc">
-                        Freelance Front-End Engineer & Shopify Plus Partner with 6+ years of experience turning UI/UX designs into
-                        responsive, accessible, and high-performance web experiences. Open to freelance projects, contract roles, and long-term collaborations.
+                        Freelance Front-End Engineer & Shopify Plus Partner with 6+ years of experience turning UI/UX
+                        designs into responsive, accessible, and high-performance web experiences.
                     </p>
                     <div class="hero-actions">
-                        <a href="#contact" class="btn btn-primary">
+                        <a href="#contact" class="btn btn-primary magnetic">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2.5" stroke-linecap="round">
                                 <path d="M22 2L11 13" />
@@ -66,13 +73,11 @@
                             </svg>
                             Let's Talk
                         </a>
-                        <a href="#portfolio" class="btn btn-outline">View My Work</a>
+                        <a href="#portfolio" class="btn btn-outline magnetic">View My Work</a>
                     </div>
                 </div>
 
                 <div class="hero-visual">
-                    <div class="orbit-ring"></div>
-                    <div class="orbit-ring"></div>
                     <div class="hero-card">
                         <div class="card-terminal">
                             <div class="terminal-bar">
@@ -82,35 +87,88 @@
                                 <span class="terminal-title">vinod@portfolio ~</span>
                             </div>
                             <div class="terminal-body">
-                                <div><span class="prompt">~</span> <span class="key">name:</span> <span class="type-line" data-text="Vinod Kalyan"></span></div>
-                                <div><span class="prompt">~</span> <span class="key">role:</span> <span class="type-line str" data-text='"Freelance Developer"'></span></div>
-                                <div><span class="prompt">~</span> <span class="key">status:</span> <span class="type-line" data-text="Available for hire ✓" style="color:var(--green)"></span></div>
-                                <div><span class="prompt">~</span> <span class="key">location:</span> <span class="type-line" data-text="Bengaluru, India"></span></div>
-                                <div><span class="prompt">~</span> <span class="key">stack:</span> <span class="type-line str" data-text='["React", "Shopify", "Node"]'></span></div>
-                                <div><span class="prompt">~</span> <span class="key">partner:</span> <span class="type-line" data-text="Shopify Plus ✓" style="color:var(--green)"></span></div>
-                                <div class="terminal-cursor-line"><span class="prompt">~</span> <span class="blinking-cursor">|</span></div>
+                                <div><span class="prompt">$</span> <span class="key">name:</span> <span
+                                        class="type-line" data-text="Vinod Kalyan"></span></div>
+                                <div><span class="prompt">$</span> <span class="key">role:</span> <span
+                                        class="type-line str" data-text='"Freelance Developer"'></span></div>
+                                <div><span class="prompt">$</span> <span class="key">status:</span> <span
+                                        class="type-line" data-text="Available for hire ✓"
+                                        style="color:var(--green)"></span></div>
+                                <div><span class="prompt">$</span> <span class="key">location:</span> <span
+                                        class="type-line" data-text="Bengaluru, India"></span></div>
+                                <div><span class="prompt">$</span> <span class="key">stack:</span> <span
+                                        class="type-line str"
+                                        data-text='["React", "Shopify", "Node"]'></span></div>
+                                <div><span class="prompt">$</span> <span class="key">partner:</span> <span
+                                        class="type-line" data-text="Shopify Plus ✓"
+                                        style="color:var(--green)"></span></div>
+                                <div class="terminal-cursor-line"><span class="prompt">$</span> <span
+                                        class="blinking-cursor">_</span></div>
                             </div>
                         </div>
                     </div>
+                    <!-- Floating code snippets -->
+                    <div class="float-code float-1">&lt;div class="hero"&gt;</div>
+                    <div class="float-code float-2">color: #F97316;</div>
+                    <div class="float-code float-3">npm run build</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="divider"></div>
+    <!-- Tech Stack Marquee -->
+    <div class="marquee-section">
+        <div class="marquee-track">
+            <div class="marquee-content">
+                <span>React.js</span><span class="marquee-dot"></span>
+                <span>Shopify Liquid</span><span class="marquee-dot"></span>
+                <span>JavaScript</span><span class="marquee-dot"></span>
+                <span>Node.js</span><span class="marquee-dot"></span>
+                <span>HTML5</span><span class="marquee-dot"></span>
+                <span>CSS3</span><span class="marquee-dot"></span>
+                <span>SCSS</span><span class="marquee-dot"></span>
+                <span>Bootstrap</span><span class="marquee-dot"></span>
+                <span>Tailwind</span><span class="marquee-dot"></span>
+                <span>jQuery</span><span class="marquee-dot"></span>
+                <span>REST APIs</span><span class="marquee-dot"></span>
+                <span>Git</span><span class="marquee-dot"></span>
+                <span>Figma</span><span class="marquee-dot"></span>
+                <span>Express.js</span><span class="marquee-dot"></span>
+                <span>GSAP</span><span class="marquee-dot"></span>
+                <span>Shopify Plus</span><span class="marquee-dot"></span>
+            </div>
+            <div class="marquee-content" aria-hidden="true">
+                <span>React.js</span><span class="marquee-dot"></span>
+                <span>Shopify Liquid</span><span class="marquee-dot"></span>
+                <span>JavaScript</span><span class="marquee-dot"></span>
+                <span>Node.js</span><span class="marquee-dot"></span>
+                <span>HTML5</span><span class="marquee-dot"></span>
+                <span>CSS3</span><span class="marquee-dot"></span>
+                <span>SCSS</span><span class="marquee-dot"></span>
+                <span>Bootstrap</span><span class="marquee-dot"></span>
+                <span>Tailwind</span><span class="marquee-dot"></span>
+                <span>jQuery</span><span class="marquee-dot"></span>
+                <span>REST APIs</span><span class="marquee-dot"></span>
+                <span>Git</span><span class="marquee-dot"></span>
+                <span>Figma</span><span class="marquee-dot"></span>
+                <span>Express.js</span><span class="marquee-dot"></span>
+                <span>GSAP</span><span class="marquee-dot"></span>
+                <span>Shopify Plus</span><span class="marquee-dot"></span>
+            </div>
+        </div>
+    </div>
 
     <!-- Experience -->
     <section id="experience">
         <div class="container">
             <div class="animate-in">
                 <div class="section-label">// Experience</div>
-                <h2 class="section-title">Where I've Worked</h2>
+                <h2 class="section-title">Where I've <span class="gradient-text">Worked</span></h2>
                 <p class="section-desc">Over 6 years building performant, accessible web experiences for startups and
                     agencies across e-commerce and design. Now freelancing and open to new projects.</p>
             </div>
 
             <div class="timeline">
-                <!-- Ascend Themes -->
                 <div class="timeline-item animate-in">
                     <div class="timeline-dot"></div>
                     <div class="timeline-header">
@@ -125,8 +183,8 @@
                         <span>Bengaluru, India · Hybrid</span>
                     </div>
                     <div class="timeline-desc">
-                        Shopify theme developer building and maintaining premium Shopify themes. Designing, customizing,
-                        and optimizing themes to match brand identity and improve storefront performance at scale.
+                        Building and maintaining premium Shopify themes. Designing, customizing, and optimizing themes to
+                        match brand identity and improve storefront performance at scale.
                     </div>
                     <div class="timeline-tags">
                         <span class="tag">Express.js</span>
@@ -135,7 +193,6 @@
                     </div>
                 </div>
 
-                <!-- ShopTrade -->
                 <div class="timeline-item animate-in">
                     <div class="timeline-dot"></div>
                     <div class="timeline-header">
@@ -151,8 +208,7 @@
                     </div>
                     <div class="timeline-desc">
                         Building responsive, accessible storefronts for Shopify Plus merchants. Integrating REST APIs
-                        for dynamic, data-driven functionality while applying WCAG accessibility standards and
-                        performance optimization techniques.
+                        for dynamic, data-driven functionality with WCAG accessibility standards.
                     </div>
                     <div class="timeline-tags">
                         <span class="tag">React.js</span>
@@ -162,7 +218,6 @@
                     </div>
                 </div>
 
-                <!-- Lollypop -->
                 <div class="timeline-item animate-in">
                     <div class="timeline-dot"></div>
                     <div class="timeline-header">
@@ -177,9 +232,8 @@
                         <span>Bengaluru, India · Full-time</span>
                     </div>
                     <div class="timeline-desc">
-                        Converted UI/UX designs into pixel-perfect, responsive web interfaces. Performed cross-browser
-                        testing and ensured mobile responsiveness. Built visually accurate, user-friendly interfaces
-                        using modern CSS frameworks.
+                        Converted UI/UX designs into pixel-perfect, responsive web interfaces. Cross-browser testing,
+                        mobile responsiveness, and modern CSS frameworks.
                     </div>
                     <div class="timeline-tags">
                         <span class="tag">CSS</span>
@@ -217,31 +271,24 @@
         </div>
     </section>
 
-    <div class="divider"></div>
-
     <!-- Portfolio -->
     <section id="portfolio">
         <div class="container">
             <div class="animate-in">
                 <div class="section-label">// Portfolio</div>
-                <h2 class="section-title">Work & More</h2>
-                <p class="section-desc">A few highlights from 30+ projects I've delivered — from Shopify storefronts and e-commerce platforms to custom web applications and SaaS products.</p>
+                <h2 class="section-title">Work & <span class="gradient-text">More</span></h2>
+                <p class="section-desc">A few highlights from 30+ projects I've delivered — from Shopify storefronts to
+                    custom web applications and SaaS products.</p>
             </div>
 
             <div class="portfolio-grid">
                 <a href="https://themes.shopify.com/themes/flawless/presets/flawless" target="_blank"
-                    class="portfolio-card animate-in">
+                    class="portfolio-card animate-in" data-num="01">
                     <div class="portfolio-img">
                         <img src="https://api.microlink.io/?url=https://themes.shopify.com/themes/flawless/presets/flawless&screenshot=true&meta=false&embed=screenshot.url"
                             alt="Flawless Shopify Theme" loading="lazy">
                         <div class="portfolio-overlay">
-                            <span class="portfolio-view">View Project
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M7 17L17 7" />
-                                    <path d="M7 7h10v10" />
-                                </svg>
-                            </span>
+                            <span class="portfolio-view">View Project &rarr;</span>
                         </div>
                     </div>
                     <div class="portfolio-info">
@@ -255,18 +302,12 @@
                     </div>
                 </a>
 
-                <a href="https://kinaracapital.com/" target="_blank" class="portfolio-card animate-in">
+                <a href="https://kinaracapital.com/" target="_blank" class="portfolio-card animate-in" data-num="02">
                     <div class="portfolio-img">
                         <img src="https://api.microlink.io/?url=https://kinaracapital.com&screenshot=true&meta=false&embed=screenshot.url"
                             alt="Kinara Capital" loading="lazy">
                         <div class="portfolio-overlay">
-                            <span class="portfolio-view">View Project
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M7 17L17 7" />
-                                    <path d="M7 7h10v10" />
-                                </svg>
-                            </span>
+                            <span class="portfolio-view">View Project &rarr;</span>
                         </div>
                     </div>
                     <div class="portfolio-info">
@@ -280,18 +321,12 @@
                     </div>
                 </a>
 
-                <a href="https://www.eshakti.com/" target="_blank" class="portfolio-card animate-in">
+                <a href="https://www.eshakti.com/" target="_blank" class="portfolio-card animate-in" data-num="03">
                     <div class="portfolio-img">
                         <img src="https://api.microlink.io/?url=https://www.eshakti.com&screenshot=true&meta=false&embed=screenshot.url"
                             alt="eShakti" loading="lazy">
                         <div class="portfolio-overlay">
-                            <span class="portfolio-view">View Project
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M7 17L17 7" />
-                                    <path d="M7 7h10v10" />
-                                </svg>
-                            </span>
+                            <span class="portfolio-view">View Project &rarr;</span>
                         </div>
                     </div>
                     <div class="portfolio-info">
@@ -305,18 +340,12 @@
                     </div>
                 </a>
 
-                <a href="https://www.trukkin.com/" target="_blank" class="portfolio-card animate-in">
+                <a href="https://www.trukkin.com/" target="_blank" class="portfolio-card animate-in" data-num="04">
                     <div class="portfolio-img">
                         <img src="https://api.microlink.io/?url=https://www.trukkin.com&screenshot=true&meta=false&embed=screenshot.url"
                             alt="Trukkin" loading="lazy">
                         <div class="portfolio-overlay">
-                            <span class="portfolio-view">View Project
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M7 17L17 7" />
-                                    <path d="M7 7h10v10" />
-                                </svg>
-                            </span>
+                            <span class="portfolio-view">View Project &rarr;</span>
                         </div>
                     </div>
                     <div class="portfolio-info">
@@ -330,18 +359,12 @@
                     </div>
                 </a>
 
-                <a href="https://navikenz.com/" target="_blank" class="portfolio-card animate-in">
+                <a href="https://navikenz.com/" target="_blank" class="portfolio-card animate-in" data-num="05">
                     <div class="portfolio-img">
                         <img src="https://api.microlink.io/?url=https://navikenz.com&screenshot=true&meta=false&embed=screenshot.url"
                             alt="Navikenz" loading="lazy">
                         <div class="portfolio-overlay">
-                            <span class="portfolio-view">View Project
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M7 17L17 7" />
-                                    <path d="M7 7h10v10" />
-                                </svg>
-                            </span>
+                            <span class="portfolio-view">View Project &rarr;</span>
                         </div>
                     </div>
                     <div class="portfolio-info">
@@ -355,18 +378,12 @@
                     </div>
                 </a>
 
-                <a href="https://impress.ai/" target="_blank" class="portfolio-card animate-in">
+                <a href="https://impress.ai/" target="_blank" class="portfolio-card animate-in" data-num="06">
                     <div class="portfolio-img">
                         <img src="https://api.microlink.io/?url=https://impress.ai&screenshot=true&meta=false&embed=screenshot.url"
                             alt="Impress.ai" loading="lazy">
                         <div class="portfolio-overlay">
-                            <span class="portfolio-view">View Project
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M7 17L17 7" />
-                                    <path d="M7 7h10v10" />
-                                </svg>
-                            </span>
+                            <span class="portfolio-view">View Project &rarr;</span>
                         </div>
                     </div>
                     <div class="portfolio-info">
@@ -380,18 +397,12 @@
                     </div>
                 </a>
 
-                <a href="https://www.stonex.com/" target="_blank" class="portfolio-card animate-in">
+                <a href="https://www.stonex.com/" target="_blank" class="portfolio-card animate-in" data-num="07">
                     <div class="portfolio-img">
                         <img src="https://api.microlink.io/?url=https://www.stonex.com&screenshot=true&meta=false&embed=screenshot.url"
                             alt="StoneX" loading="lazy">
                         <div class="portfolio-overlay">
-                            <span class="portfolio-view">View Project
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M7 17L17 7" />
-                                    <path d="M7 7h10v10" />
-                                </svg>
-                            </span>
+                            <span class="portfolio-view">View Project &rarr;</span>
                         </div>
                     </div>
                     <div class="portfolio-info">
@@ -406,18 +417,12 @@
                 </a>
 
                 <a href="https://wonderful-daifuku-334204.netlify.app/" target="_blank"
-                    class="portfolio-card animate-in">
+                    class="portfolio-card animate-in" data-num="08">
                     <div class="portfolio-img">
                         <img src="https://api.microlink.io/?url=https://wonderful-daifuku-334204.netlify.app&screenshot=true&meta=false&embed=screenshot.url"
                             alt="Stax Labs" loading="lazy">
                         <div class="portfolio-overlay">
-                            <span class="portfolio-view">View Project
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M7 17L17 7" />
-                                    <path d="M7 7h10v10" />
-                                </svg>
-                            </span>
+                            <span class="portfolio-view">View Project &rarr;</span>
                         </div>
                     </div>
                     <div class="portfolio-info">
@@ -433,18 +438,12 @@
                 </a>
 
                 <a href="https://splendorous-treacle-dd8ffe.netlify.app/" target="_blank"
-                    class="portfolio-card animate-in">
+                    class="portfolio-card animate-in" data-num="09">
                     <div class="portfolio-img">
                         <img src="https://api.microlink.io/?url=https://splendorous-treacle-dd8ffe.netlify.app&screenshot=true&meta=false&embed=screenshot.url"
                             alt="MintCAD" loading="lazy">
                         <div class="portfolio-overlay">
-                            <span class="portfolio-view">View Project
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M7 17L17 7" />
-                                    <path d="M7 7h10v10" />
-                                </svg>
-                            </span>
+                            <span class="portfolio-view">View Project &rarr;</span>
                         </div>
                     </div>
                     <div class="portfolio-info">
@@ -459,18 +458,12 @@
                 </a>
 
                 <a href="https://69a84cfe7fb48900080ba273--ezer-web.netlify.app/" target="_blank"
-                    class="portfolio-card animate-in">
+                    class="portfolio-card animate-in" data-num="10">
                     <div class="portfolio-img">
                         <img src="https://api.microlink.io/?url=https://69a84cfe7fb48900080ba273--ezer-web.netlify.app/us/&screenshot=true&meta=false&embed=screenshot.url"
                             alt="Ezerz" loading="lazy">
                         <div class="portfolio-overlay">
-                            <span class="portfolio-view">View Project
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M7 17L17 7" />
-                                    <path d="M7 7h10v10" />
-                                </svg>
-                            </span>
+                            <span class="portfolio-view">View Project &rarr;</span>
                         </div>
                     </div>
                     <div class="portfolio-info">
@@ -488,7 +481,7 @@
 
             <div class="portfolio-more animate-in">
                 <p>+ 20 more projects across e-commerce, SaaS, fintech & logistics</p>
-                <a href="#contact" class="btn btn-outline">Let's Discuss Your Project</a>
+                <a href="#contact" class="btn btn-outline magnetic">Let's Discuss Your Project</a>
             </div>
         </div>
     </section>
@@ -500,7 +493,7 @@
         <div class="container">
             <div class="animate-in">
                 <div class="section-label">// Skills</div>
-                <h2 class="section-title">What I Bring</h2>
+                <h2 class="section-title">What I <span class="gradient-text">Bring</span></h2>
                 <p class="section-desc">A full-spectrum front-end toolkit honed across years of production work in
                     e-commerce and design agencies.</p>
             </div>
@@ -606,19 +599,37 @@
         </div>
     </section>
 
-    <div class="divider"></div>
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+        <div class="container">
+            <div class="cta-inner animate-in">
+                <h2>Have a project in mind?</h2>
+                <p>I'm currently accepting freelance projects and contract work. Let's build something great together.
+                </p>
+                <a href="#contact" class="btn btn-primary magnetic">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5" stroke-linecap="round">
+                        <path d="M22 2L11 13" />
+                        <path d="M22 2L15 22L11 13L2 9L22 2Z" />
+                    </svg>
+                    Start a Conversation
+                </a>
+            </div>
+        </div>
+    </section>
 
     <!-- Contact -->
     <section id="contact" class="contact-section">
         <div class="container">
             <div class="animate-in">
                 <div class="section-label">// Get in Touch</div>
-                <h2 class="section-title">Let's Build Something<br><span style="color:var(--accent)">Together.</span>
+                <h2 class="section-title">Let's Build Something<br><span class="gradient-text">Together.</span>
                 </h2>
-                <p class="section-desc">I'm a freelancer actively looking for new opportunities — whether it's a Shopify storefront, a custom web app, or a front-end project from Figma to production. Let's connect and bring your ideas to life.</p>
+                <p class="section-desc">I'm a freelancer actively looking for new opportunities — whether it's a
+                    Shopify storefront, a custom web app, or a front-end project from Figma to production.</p>
             </div>
             <div class="contact-links animate-in">
-                <a href="mailto:viondkalyan.vk05@gmail.com" class="contact-link">
+                <a href="mailto:viondkalyan.vk05@gmail.com" class="contact-link magnetic">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <rect width="20" height="16" x="2" y="4" rx="2" />
@@ -626,7 +637,7 @@
                     </svg>
                     Email
                 </a>
-                <a href="tel:+918050364337" class="contact-link">
+                <a href="tel:+918050364337" class="contact-link magnetic">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path
@@ -634,14 +645,14 @@
                     </svg>
                     Phone
                 </a>
-                <a href="https://www.linkedin.com/in/vinod-kalyan" target="_blank" class="contact-link">
+                <a href="https://www.linkedin.com/in/vinod-kalyan" target="_blank" class="contact-link magnetic">
                     <svg viewBox="0 0 24 24" fill="currentColor">
                         <path
                             d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z" />
                     </svg>
                     LinkedIn
                 </a>
-                <a href="https://github.com/vinodkalyan05071995" target="_blank" class="contact-link">
+                <a href="https://github.com/vinodkalyan05071995" target="_blank" class="contact-link magnetic">
                     <svg viewBox="0 0 24 24" fill="currentColor">
                         <path
                             d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
@@ -654,7 +665,11 @@
 
     <footer>
         <div class="container">
-            <p><span>Vinod Kalyan</span> · Bengaluru, India · © 2026</p>
+            <div class="footer-inner">
+                <a href="#" class="logo">VK<span>.</span></a>
+                <p>Designed & Built by <span>Vinod Kalyan</span></p>
+                <p class="footer-copy">Bengaluru, India · &copy; 2026</p>
+            </div>
         </div>
     </footer>
 
