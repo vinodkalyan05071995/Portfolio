@@ -37,6 +37,7 @@
                 <span></span><span></span><span></span>
             </button>
             <ul class="nav-links">
+                <li><a href="#about">About</a></li>
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#portfolio">Portfolio</a></li>
                 <li><a href="#skills">Skills</a></li>
@@ -78,39 +79,84 @@
                 </div>
 
                 <div class="hero-visual">
-                    <div class="hero-card">
-                        <div class="card-terminal">
-                            <div class="terminal-bar">
-                                <span class="terminal-dot red"></span>
-                                <span class="terminal-dot yellow"></span>
-                                <span class="terminal-dot green"></span>
-                                <span class="terminal-title">vinod@portfolio ~</span>
-                            </div>
-                            <div class="terminal-body">
-                                <div><span class="prompt">$</span> <span class="key">name:</span> <span
-                                        class="type-line" data-text="Vinod Kalyan"></span></div>
-                                <div><span class="prompt">$</span> <span class="key">role:</span> <span
-                                        class="type-line str" data-text='"Freelance Developer"'></span></div>
-                                <div><span class="prompt">$</span> <span class="key">status:</span> <span
-                                        class="type-line" data-text="Available for hire ✓"
-                                        style="color:var(--green)"></span></div>
-                                <div><span class="prompt">$</span> <span class="key">location:</span> <span
-                                        class="type-line" data-text="Bengaluru, India"></span></div>
-                                <div><span class="prompt">$</span> <span class="key">stack:</span> <span
-                                        class="type-line str"
-                                        data-text='["React", "Shopify", "Node"]'></span></div>
-                                <div><span class="prompt">$</span> <span class="key">partner:</span> <span
-                                        class="type-line" data-text="Shopify Plus ✓"
-                                        style="color:var(--green)"></span></div>
-                                <div class="terminal-cursor-line"><span class="prompt">$</span> <span
-                                        class="blinking-cursor">_</span></div>
-                            </div>
+                    <div class="hero-photo-wrapper">
+                        <!-- Pulsing glow backdrop -->
+                        <div class="photo-glow"></div>
+                        <!-- Animated gradient ring -->
+                        <div class="photo-gradient-ring"></div>
+                        <!-- Rotating dashed ring -->
+                        <div class="photo-ring"></div>
+                        <!-- Second counter-rotating ring -->
+                        <div class="photo-ring photo-ring-2"></div>
+                        <!-- Accent orbit dots -->
+                        <div class="orbit-dot orbit-dot-1"></div>
+                        <div class="orbit-dot orbit-dot-2"></div>
+                        <div class="orbit-dot orbit-dot-3"></div>
+                        <!-- Particle sparkles -->
+                        <div class="photo-particle p1"></div>
+                        <div class="photo-particle p2"></div>
+                        <div class="photo-particle p3"></div>
+                        <div class="photo-particle p4"></div>
+                        <div class="photo-particle p5"></div>
+                        <div class="photo-particle p6"></div>
+                        <!-- The photo -->
+                        <div class="hero-photo">
+                            <img src="assets/vinod-profile.jpg" alt="Vinod Kalyan">
+                            <div class="photo-shine"></div>
+                        </div>
+                        <!-- Status badge on photo -->
+                        <div class="photo-status">
+                            <span class="status-dot"></span>
+                            Available
                         </div>
                     </div>
                     <!-- Floating code snippets -->
                     <div class="float-code float-1">&lt;div class="hero"&gt;</div>
                     <div class="float-code float-2">color: #F97316;</div>
                     <div class="float-code float-3">npm run build</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About / Terminal Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-content animate-in">
+                    <div class="section-label">// About Me</div>
+                    <h2 class="section-title">The Person Behind <span class="gradient-text">the Code</span></h2>
+                    <p class="about-text">I'm Vinod Kalyan — a freelance front-end engineer based in Bengaluru, India. I've spent 6+ years turning Figma designs into high-performance web experiences for startups, agencies, and Shopify Plus merchants.</p>
+                    <p class="about-text">When I'm not writing clean, accessible code, you'll find me exploring new frameworks, contributing to open source, or fine-tuning storefront performance for my clients.</p>
+                </div>
+                <div class="about-terminal animate-in">
+                    <div class="card-terminal">
+                        <div class="terminal-bar">
+                            <span class="terminal-dot red"></span>
+                            <span class="terminal-dot yellow"></span>
+                            <span class="terminal-dot green"></span>
+                            <span class="terminal-title">vinod@portfolio ~</span>
+                        </div>
+                        <div class="terminal-body">
+                            <div><span class="prompt">$</span> <span class="key">name:</span> <span
+                                    class="type-line" data-text="Vinod Kalyan"></span></div>
+                            <div><span class="prompt">$</span> <span class="key">role:</span> <span
+                                    class="type-line str" data-text='"Freelance Developer"'></span></div>
+                            <div><span class="prompt">$</span> <span class="key">status:</span> <span
+                                    class="type-line" data-text="Available for hire ✓"
+                                    style="color:var(--green)"></span></div>
+                            <div><span class="prompt">$</span> <span class="key">location:</span> <span
+                                    class="type-line" data-text="Bengaluru, India"></span></div>
+                            <div><span class="prompt">$</span> <span class="key">stack:</span> <span
+                                    class="type-line str"
+                                    data-text='["React", "Shopify", "Node"]'></span></div>
+                            <div><span class="prompt">$</span> <span class="key">partner:</span> <span
+                                    class="type-line" data-text="Shopify Plus ✓"
+                                    style="color:var(--green)"></span></div>
+                            <div class="terminal-cursor-line"><span class="prompt">$</span> <span
+                                    class="blinking-cursor">_</span></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -113,13 +113,14 @@ function typeTerminal() {
     });
 }
 
-const heroObserver = new IntersectionObserver(entries => {
+const aboutSection = document.querySelector('.about-section') || document.querySelector('.hero');
+const terminalObserver = new IntersectionObserver(entries => {
     if (entries[0].isIntersecting) {
         setTimeout(typeTerminal, 600);
-        heroObserver.disconnect();
+        terminalObserver.disconnect();
     }
 }, { threshold: 0.3 });
-heroObserver.observe(document.querySelector('.hero'));
+terminalObserver.observe(aboutSection);
 
 // ── Mouse Glow on Cards ──
 document.querySelectorAll('.portfolio-card, .skill-card').forEach(card => {
@@ -193,17 +194,17 @@ if (hamburger) {
     });
 }
 
-// ── Tilt on hero card ──
-const heroCard = document.querySelector('.hero-card');
-if (heroCard) {
-    heroCard.addEventListener('mousemove', e => {
-        const rect = heroCard.getBoundingClientRect();
+// ── Tilt on hero photo ──
+const heroPhoto = document.querySelector('.hero-photo-wrapper');
+if (heroPhoto) {
+    heroPhoto.addEventListener('mousemove', e => {
+        const rect = heroPhoto.getBoundingClientRect();
         const x = (e.clientX - rect.left) / rect.width - 0.5;
         const y = (e.clientY - rect.top) / rect.height - 0.5;
-        heroCard.style.transform = `perspective(800px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg)`;
+        heroPhoto.style.transform = `perspective(800px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg)`;
     });
-    heroCard.addEventListener('mouseleave', () => {
-        heroCard.style.transform = '';
+    heroPhoto.addEventListener('mouseleave', () => {
+        heroPhoto.style.transform = '';
     });
 }
 
