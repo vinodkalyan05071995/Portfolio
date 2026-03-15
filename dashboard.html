@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Dashboard — Vinod Kalyan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        surface: { 50:'#FAFAF9',100:'#F5F5F4',200:'#E7E5E4',300:'#D6D3D1',700:'#1A1A1E',800:'#141416',900:'#0D0D0F',950:'#050505' },
+                        accent: { DEFAULT:'#F97316', light:'#FB923C', glow:'rgba(249,115,22,0.15)' },
+                        success:'#22C55E', warning:'#EAB308', danger:'#EF4444'
+                    },
+                    fontFamily: { display:['Syne','sans-serif'], body:['DM Sans','sans-serif'], mono:['JetBrains Mono','monospace'] },
+                }
+            }
+        }
+    </script>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'DM Sans',sans-serif; }
+        ::-webkit-scrollbar { width:6px; }
+        ::-webkit-scrollbar-thumb { background:#2A2A30; border-radius:3px; }
+        .sidebar-link.active { background:rgba(249,115,22,0.1); color:#F97316; border-right:3px solid #F97316; }
+        .sidebar-link:hover:not(.active) { background:rgba(249,115,22,0.05); }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+        .animate-fade-up { animation:fadeUp 0.4s ease-out both; }
+        .stagger-1{animation-delay:.05s} .stagger-2{animation-delay:.1s} .stagger-3{animation-delay:.15s} .stagger-4{animation-delay:.2s}
+    </style>
+</head>
+<body class="bg-surface-50 dark:bg-surface-950 text-gray-800 dark:text-surface-50 transition-colors duration-300">
+
+    <!-- Login Screen -->
+    <div id="login-screen" class="fixed inset-0 z-[9999] bg-surface-950 flex items-center justify-center p-4">
+        <div class="w-full max-w-sm bg-surface-900 border border-surface-700 rounded-2xl p-8 space-y-6 text-center">
+            <div class="w-14 h-14 mx-auto rounded-xl bg-accent flex items-center justify-center text-white font-display font-bold text-xl">VK</div>
+            <div>
+                <h2 class="text-xl font-display font-bold text-white">Dashboard Login</h2>
+                <p class="text-sm text-gray-400 mt-1">Enter your password to access billing.</p>
+            </div>
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <input type="password" id="login-password" required placeholder="Password" autofocus class="w-full px-4 py-3 text-sm rounded-lg bg-surface-800 border border-surface-700 focus:border-accent outline-none text-white placeholder-gray-500">
+                <p id="login-error" class="text-xs text-danger hidden">Incorrect password. Try again.</p>
+                <button type="submit" class="w-full px-4 py-3 text-sm font-semibold rounded-lg bg-accent text-white hover:bg-accent-light transition-colors">Unlock Dashboard</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mobile Overlay -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-white dark:bg-surface-900 border-r border-gray-200 dark:border-surface-700 z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col">
+        <div class="p-6 border-b border-gray-200 dark:border-surface-700">
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg bg-accent flex items-center justify-center text-white font-display font-bold text-sm">VK</div>
+                <div>
+                    <div class="font-display font-bold text-sm">Vinod Kalyan</div>
+                    <div class="text-xs text-gray-400">Billing Dashboard</div>
+                </div>
+            </a>
+        </div>
+        <nav class="flex-1 py-4 px-3 space-y-1">
+            <a href="#overview" class="sidebar-link active flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all" data-section="overview">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z"/></svg>
+                Overview
+            </a>
+            <a href="#billing" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 transition-all" data-section="billing">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                All Billings
+            </a>
+            <a href="#pending-section" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 transition-all" data-section="pending-section">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Pending
+                <span class="ml-auto bg-danger/10 text-danger text-xs font-semibold px-2 py-0.5 rounded-full" id="pending-count">0</span>
+            </a>
+            <button onclick="openImportModal()" class="w-full sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 transition-all text-left">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                Import CSV
+            </button>
+            <a href="jobs.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.193 23.193 0 0112 15c-3.183 0-6.22-.64-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                Jobs
+            </a>
+        </nav>
+        <div class="p-3 border-t border-gray-200 dark:border-surface-700 space-y-1">
+            <button onclick="handleLogout()" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-danger transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                Logout
+            </button>
+            <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-accent transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 17l-5-5m0 0l5-5m-5 5h12"/></svg>
+                Back to Portfolio
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main -->
+    <main id="dashboard-main" class="lg:ml-64 min-h-screen hidden">
+        <header class="sticky top-0 z-20 bg-white/80 dark:bg-surface-950/80 backdrop-blur-xl border-b border-gray-200 dark:border-surface-700">
+            <div class="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-800"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+                    <div class="relative">
+                        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                        <input type="text" id="global-search" oninput="renderAll()" placeholder="Search billings..." class="w-48 sm:w-72 pl-10 pr-4 py-2 text-sm rounded-lg bg-gray-100 dark:bg-surface-800 border border-transparent focus:border-accent outline-none">
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleTheme()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-800">
+                        <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                        <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                    </button>
+                    <div class="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-white text-xs font-bold">VK</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+            <!-- Title -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 animate-fade-up">
+                <div>
+                    <h1 class="text-2xl font-display font-bold">Billing Dashboard</h1>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Manage invoices, payments & client billings.</p>
+                </div>
+                <button onclick="openModal()" class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white text-sm font-semibold rounded-lg hover:bg-accent-light transition-colors shadow-lg shadow-accent/20">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    New Billing
+                </button>
+            </div>
+
+            <!-- Summary Cards -->
+            <section id="overview" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+                <div class="animate-fade-up stagger-1 bg-white dark:bg-surface-900 border border-gray-200 dark:border-surface-700 rounded-xl p-5">
+                    <span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total Billed</span>
+                    <div class="text-2xl font-display font-bold mt-2" id="total-billed">--</div>
+                </div>
+                <div class="animate-fade-up stagger-2 bg-white dark:bg-surface-900 border border-gray-200 dark:border-surface-700 rounded-xl p-5">
+                    <span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Received</span>
+                    <div class="text-2xl font-display font-bold mt-2 text-success" id="total-received">--</div>
+                </div>
+                <div class="animate-fade-up stagger-3 bg-white dark:bg-surface-900 border border-gray-200 dark:border-surface-700 rounded-xl p-5">
+                    <span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pending</span>
+                    <div class="text-2xl font-display font-bold mt-2 text-warning" id="total-pending">--</div>
+                </div>
+                <div class="animate-fade-up stagger-4 bg-white dark:bg-surface-900 border border-gray-200 dark:border-surface-700 rounded-xl p-5">
+                    <span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Overdue</span>
+                    <div class="text-2xl font-display font-bold mt-2 text-danger" id="total-overdue">--</div>
+                </div>
+            </section>
+
+            <!-- Table -->
+            <section id="billing" class="bg-white dark:bg-surface-900 border border-gray-200 dark:border-surface-700 rounded-xl animate-fade-up">
+                <div class="p-5 border-b border-gray-200 dark:border-surface-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <h2 class="text-lg font-display font-bold">All Billings</h2>
+                    <select id="status-filter" onchange="renderAll()" class="text-sm px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-surface-800 border border-transparent focus:border-accent outline-none cursor-pointer">
+                        <option value="all">All Status</option>
+                        <option value="paid">Paid</option>
+                        <option value="pending">Pending</option>
+                        <option value="partial">Partial</option>
+                        <option value="overdue">Overdue</option>
+                    </select>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider border-b border-gray-200 dark:border-surface-700">
+                                <th class="px-5 py-3">Client</th>
+                                <th class="px-5 py-3">Project</th>
+                                <th class="px-5 py-3">Amount</th>
+                                <th class="px-5 py-3">Paid</th>
+                                <th class="px-5 py-3">Status</th>
+                                <th class="px-5 py-3">Due Date</th>
+                                <th class="px-5 py-3">Source</th>
+                                <th class="px-5 py-3">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="billing-body" class="divide-y divide-gray-100 dark:divide-surface-700"></tbody>
+                    </table>
+                </div>
+                <div id="empty-state" class="hidden p-12 text-center">
+                    <svg class="w-12 h-12 mx-auto text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                    <p class="text-gray-500 dark:text-gray-400 font-medium">No billings yet</p>
+                    <p class="text-sm text-gray-400 dark:text-gray-500 mt-1">Click "New Billing" to add your first entry.</p>
+                </div>
+            </section>
+
+            <!-- Pending Section -->
+            <section id="pending-section" class="animate-fade-up">
+                <h2 class="text-lg font-display font-bold mb-4">Pending & Overdue</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="pending-cards"></div>
+                <div id="no-pending" class="hidden text-center py-8 text-sm text-gray-400">No pending or overdue billings.</div>
+            </section>
+
+            <footer class="text-center text-xs text-gray-400 py-6 border-t border-gray-200 dark:border-surface-700">
+                Billing Dashboard &middot; Built by <span class="text-accent">Vinod Kalyan</span>
+            </footer>
+        </div>
+    </main>
+
+    <!-- Add/Edit Modal -->
+    <div id="billing-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="relative w-full max-w-md bg-white dark:bg-surface-900 border border-gray-200 dark:border-surface-700 rounded-2xl shadow-2xl p-6 space-y-5 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between">
+                <h3 class="text-lg font-display font-bold" id="modal-title">New Billing</h3>
+                <button onclick="closeModal()" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-800"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+            </div>
+            <form id="billing-form" onsubmit="saveBilling(event)" class="space-y-4">
+                <input type="hidden" id="edit-id" value="">
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Client Name *</label>
+                    <input type="text" id="f-client" required class="w-full px-3 py-2.5 text-sm rounded-lg bg-gray-100 dark:bg-surface-800 border border-transparent focus:border-accent outline-none" placeholder="e.g. Acme Corp">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Project Name *</label>
+                    <input type="text" id="f-project" required class="w-full px-3 py-2.5 text-sm rounded-lg bg-gray-100 dark:bg-surface-800 border border-transparent focus:border-accent outline-none" placeholder="e.g. E-commerce Redesign">
+                </div>
+                <div class="grid grid-cols-3 gap-3">
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Currency</label>
+                        <select id="f-currency" class="w-full px-3 py-2.5 text-sm rounded-lg bg-gray-100 dark:bg-surface-800 border border-transparent focus:border-accent outline-none cursor-pointer">
+                            <option value="INR">₹ INR</option>
+                            <option value="USD">$ USD</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Total Amt *</label>
+                        <input type="number" id="f-amount" required min="1" step="0.01" class="w-full px-3 py-2.5 text-sm rounded-lg bg-gray-100 dark:bg-surface-800 border border-transparent focus:border-accent outline-none" placeholder="50000">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Paid Amt</label>
+                        <input type="number" id="f-paid-amount" min="0" step="0.01" value="0" class="w-full px-3 py-2.5 text-sm rounded-lg bg-gray-100 dark:bg-surface-800 border border-transparent focus:border-accent outline-none" placeholder="0">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Status *</label>
+                        <select id="f-status" required class="w-full px-3 py-2.5 text-sm rounded-lg bg-gray-100 dark:bg-surface-800 border border-transparent focus:border-accent outline-none cursor-pointer">
+                            <option value="pending">Pending</option>
+                            <option value="partial">Partial</option>
+                            <option value="paid">Paid</option>
+                            <option value="overdue">Overdue</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Due Date *</label>
+                        <input type="date" id="f-date" required class="w-full px-3 py-2.5 text-sm rounded-lg bg-gray-100 dark:bg-surface-800 border border-transparent focus:border-accent outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Notes</label>
+                    <textarea id="f-notes" rows="2" class="w-full px-3 py-2.5 text-sm rounded-lg bg-gray-100 dark:bg-surface-800 border border-transparent focus:border-accent outline-none resize-none" placeholder="Any details..."></textarea>
+                </div>
+                <div class="flex gap-3 pt-2">
+                    <button type="button" onclick="closeModal()" class="flex-1 px-4 py-2.5 text-sm font-medium rounded-lg border border-gray-200 dark:border-surface-700 hover:bg-gray-100 dark:hover:bg-surface-800 transition-colors">Cancel</button>
+                    <button type="submit" class="flex-1 px-4 py-2.5 text-sm font-semibold rounded-lg bg-accent text-white hover:bg-accent-light transition-colors">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div id="delete-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeDeleteModal()"></div>
+        <div class="relative w-full max-w-sm bg-white dark:bg-surface-900 border border-gray-200 dark:border-surface-700 rounded-2xl shadow-2xl p-6 text-center space-y-4">
+            <div class="w-12 h-12 mx-auto rounded-full bg-danger/10 flex items-center justify-center">
+                <svg class="w-6 h-6 text-danger" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </div>
+            <p class="font-semibold">Delete this billing?</p>
+            <div class="flex gap-3">
+                <button onclick="closeDeleteModal()" class="flex-1 px-4 py-2.5 text-sm font-medium rounded-lg border border-gray-200 dark:border-surface-700 hover:bg-gray-100 dark:hover:bg-surface-800">Cancel</button>
+                <button onclick="confirmDelete()" class="flex-1 px-4 py-2.5 text-sm font-semibold rounded-lg bg-danger text-white hover:bg-red-600">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import CSV Modal -->
+    <div id="import-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeImportModal()"></div>
+        <div class="relative w-full max-w-md bg-white dark:bg-surface-900 border border-gray-200 dark:border-surface-700 rounded-2xl shadow-2xl p-6 space-y-5">
+            <div class="flex items-center justify-between">
+                <h3 class="text-lg font-display font-bold">Import from CSV</h3>
+                <button onclick="closeImportModal()" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-800"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+            </div>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Export your earnings CSV from any platform and upload it here.</p>
+            <form onsubmit="handleImport(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Platform</label>
+                    <select id="import-platform" class="w-full px-3 py-2.5 text-sm rounded-lg bg-gray-100 dark:bg-surface-800 border border-transparent focus:border-accent outline-none cursor-pointer">
+                        <option value="upwork">Upwork</option>
+                        <option value="fiverr">Fiverr</option>
+                        <option value="freelancer">Freelancer.com</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="generic">Other / Generic CSV</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">CSV File *</label>
+                    <input type="file" id="import-file" accept=".csv" required class="w-full text-sm file:mr-3 file:px-4 file:py-2 file:rounded-lg file:border-0 file:bg-accent file:text-white file:font-medium file:cursor-pointer cursor-pointer">
+                </div>
+                <div id="import-result" class="hidden text-sm p-3 rounded-lg"></div>
+                <div class="flex gap-3 pt-2">
+                    <button type="button" onclick="closeImportModal()" class="flex-1 px-4 py-2.5 text-sm font-medium rounded-lg border border-gray-200 dark:border-surface-700 hover:bg-gray-100 dark:hover:bg-surface-800">Cancel</button>
+                    <button type="submit" id="import-btn" class="flex-1 px-4 py-2.5 text-sm font-semibold rounded-lg bg-accent text-white hover:bg-accent-light transition-colors">Import</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

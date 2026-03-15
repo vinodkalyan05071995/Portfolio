@@ -1,0 +1,16 @@
+services:
+  - type: web
+    runtime: node
+    name: vk-portfolio
+    plan: free
+    buildCommand: npm install
+    startCommand: node server/index.js
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: AUTH_SECRET
+        sync: false
+      - key: DASHBOARD_PASSWORD
+        sync: false
+      - key: NODE_ENV
+        value: production
