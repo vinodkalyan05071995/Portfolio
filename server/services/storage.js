@@ -1,83 +1,92 @@
-const Database = require('better-sqlite3');
+const { createClient } = require('@libsql/client');
 const fs = require('fs');
 const path = require('path');
 const config = require('../config');
 
-const dbDir = path.dirname(config.DB_PATH);
-if (!fs.existsSync(dbDir)) fs.mkdirSync(dbDir, { recursive: true });
+const db = createClient({
+    url: config.TURSO_URL,
+    authToken: config.TURSO_AUTH_TOKEN,
+});
 
-const db = new Database(config.DB_PATH);
-db.pragma('journal_mode = WAL');
+// Initialize schema
+async function init() {
+    const schema = fs.readFileSync(path.join(__dirname, '..', 'db', 'schema.sql'), 'utf8');
+    await db.execute(schema);
+}
 
-const schema = fs.readFileSync(path.join(__dirname, '..', 'db', 'schema.sql'), 'utf8');
-db.exec(schema);
+init().catch(err => {
+    console.error('Failed to initialize database:', err.message);
+    process.exit(1);
+});
 
 module.exports = {
-    getAllBillings({ status, search } = {}) {
+    async getAllBillings({ status, search } = {}) {
         let sql = 'SELECT * FROM billings WHERE 1=1';
-        const params = [];
+        const args = [];
 
         if (status && status !== 'all') {
             sql += ' AND status = ?';
-            params.push(status);
+            args.push(status);
         }
         if (search) {
             sql += ' AND (client LIKE ? OR project LIKE ?)';
-            params.push(`%${search}%`, `%${search}%`);
+            args.push(`%${search}%`, `%${search}%`);
         }
 
         sql += ' ORDER BY date DESC, created_at DESC';
-        return db.prepare(sql).all(...params);
+        const result = await db.execute({ sql, args });
+        return result.rows;
     },
 
-    getBillingById(id) {
-        return db.prepare('SELECT * FROM billings WHERE id = ?').get(id);
+    async getBillingById(id) {
+        const result = await db.execute({ sql: 'SELECT * FROM billings WHERE id = ?', args: [id] });
+        return result.rows[0] || null;
     },
 
-    createBilling(entry) {
+    async createBilling(entry) {
         const id = entry.id || Date.now().toString();
-        const stmt = db.prepare(`
-            INSERT INTO billings (id, client, project, amount, paid_amount, currency, status, date, notes, source, platform)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `);
-        stmt.run(id, entry.client, entry.project, entry.amount, entry.paid_amount || 0, entry.currency || 'INR', entry.status, entry.date, entry.notes || '', entry.source || 'manual', entry.platform || '');
+        await db.execute({
+            sql: `INSERT INTO billings (id, client, project, amount, paid_amount, currency, status, date, notes, source, platform)
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            args: [id, entry.client, entry.project, entry.amount, entry.paid_amount || 0, entry.currency || 'INR', entry.status, entry.date, entry.notes || '', entry.source || 'manual', entry.platform || '']
+        });
         return this.getBillingById(id);
     },
 
-    updateBilling(id, entry) {
-        const stmt = db.prepare(`
-            UPDATE billings SET client=?, project=?, amount=?, paid_amount=?, currency=?, status=?, date=?, notes=?, updated_at=datetime('now')
-            WHERE id=?
-        `);
-        stmt.run(entry.client, entry.project, entry.amount, entry.paid_amount || 0, entry.currency || 'INR', entry.status, entry.date, entry.notes || '', id);
+    async updateBilling(id, entry) {
+        await db.execute({
+            sql: `UPDATE billings SET client=?, project=?, amount=?, paid_amount=?, currency=?, status=?, date=?, notes=?, updated_at=datetime('now')
+                  WHERE id=?`,
+            args: [entry.client, entry.project, entry.amount, entry.paid_amount || 0, entry.currency || 'INR', entry.status, entry.date, entry.notes || '', id]
+        });
         return this.getBillingById(id);
     },
 
-    deleteBilling(id) {
-        db.prepare('DELETE FROM billings WHERE id = ?').run(id);
+    async deleteBilling(id) {
+        await db.execute({ sql: 'DELETE FROM billings WHERE id = ?', args: [id] });
     },
 
-    bulkInsert(entries) {
-        const insert = db.prepare(`
-            INSERT OR IGNORE INTO billings (id, client, project, amount, paid_amount, currency, status, date, notes, source, platform)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `);
-
+    async bulkInsert(entries) {
         let imported = 0;
-        const tx = db.transaction((rows) => {
-            for (const e of rows) {
-                const id = e.id || `${e.platform || 'import'}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-                const result = insert.run(id, e.client, e.project, e.amount, e.paid_amount || 0, e.currency || 'USD', e.status || 'paid', e.date, e.notes || '', e.source || 'csv', e.platform || '');
-                if (result.changes > 0) imported++;
-            }
+        const batch = entries.map(e => {
+            const id = e.id || `${e.platform || 'import'}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+            return {
+                sql: `INSERT OR IGNORE INTO billings (id, client, project, amount, paid_amount, currency, status, date, notes, source, platform)
+                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                args: [id, e.client, e.project, e.amount, e.paid_amount || 0, e.currency || 'USD', e.status || 'paid', e.date, e.notes || '', e.source || 'csv', e.platform || '']
+            };
         });
 
-        tx(entries);
+        const results = await db.batch(batch, 'write');
+        for (const r of results) {
+            if (r.rowsAffected > 0) imported++;
+        }
+
         return { imported, total: entries.length, skipped: entries.length - imported };
     },
 
-    getSummary() {
-        return db.prepare(`
+    async getSummary() {
+        const result = await db.execute(`
             SELECT
                 COALESCE(SUM(amount), 0) as total,
                 COALESCE(SUM(paid_amount), 0) as total_paid_amount,
@@ -88,6 +97,7 @@ module.exports = {
                 COALESCE(SUM(CASE WHEN status='partial' THEN paid_amount ELSE 0 END), 0) as partial_paid,
                 COUNT(*) as count
             FROM billings
-        `).get();
+        `);
+        return result.rows[0];
     },
 };

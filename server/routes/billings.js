@@ -5,27 +5,27 @@ const auth = require('../middleware/auth');
 const router = express.Router();
 router.use(auth);
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
     const { status, search } = req.query;
-    res.json(storage.getAllBillings({ status, search }));
+    res.json(await storage.getAllBillings({ status, search }));
 });
 
-router.get('/summary', (req, res) => {
-    res.json(storage.getSummary());
+router.get('/summary', async (req, res) => {
+    res.json(await storage.getSummary());
 });
 
-router.get('/:id', (req, res) => {
-    const billing = storage.getBillingById(req.params.id);
+router.get('/:id', async (req, res) => {
+    const billing = await storage.getBillingById(req.params.id);
     if (!billing) return res.status(404).json({ error: 'Not found' });
     res.json(billing);
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
     const { client, project, amount, paid_amount, currency, status, date, notes } = req.body;
     if (!client || !project || !amount || !status || !date) {
         return res.status(400).json({ error: 'Missing required fields' });
     }
-    const billing = storage.createBilling({
+    const billing = await storage.createBilling({
         client, project,
         amount: parseFloat(amount),
         paid_amount: parseFloat(paid_amount) || 0,
@@ -35,12 +35,12 @@ router.post('/', (req, res) => {
     res.status(201).json(billing);
 });
 
-router.put('/:id', (req, res) => {
-    const existing = storage.getBillingById(req.params.id);
+router.put('/:id', async (req, res) => {
+    const existing = await storage.getBillingById(req.params.id);
     if (!existing) return res.status(404).json({ error: 'Not found' });
 
     const { client, project, amount, paid_amount, currency, status, date, notes } = req.body;
-    const updated = storage.updateBilling(req.params.id, {
+    const updated = await storage.updateBilling(req.params.id, {
         client: client || existing.client,
         project: project || existing.project,
         amount: amount ? parseFloat(amount) : existing.amount,
@@ -53,10 +53,10 @@ router.put('/:id', (req, res) => {
     res.json(updated);
 });
 
-router.delete('/:id', (req, res) => {
-    const existing = storage.getBillingById(req.params.id);
+router.delete('/:id', async (req, res) => {
+    const existing = await storage.getBillingById(req.params.id);
     if (!existing) return res.status(404).json({ error: 'Not found' });
-    storage.deleteBilling(req.params.id);
+    await storage.deleteBilling(req.params.id);
     res.json({ success: true });
 });
 

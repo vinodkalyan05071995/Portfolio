@@ -20,8 +20,8 @@
   },
   "homepage": "https://github.com/vinodkalyan05071995/Portfolio#readme",
   "dependencies": {
+    "@libsql/client": "^0.17.0",
     "bcrypt": "^6.0.0",
-    "better-sqlite3": "^12.8.0",
     "csv-parse": "^6.1.0",
     "dotenv": "^17.3.1",
     "express": "^4.22.1",

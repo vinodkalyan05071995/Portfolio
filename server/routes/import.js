@@ -10,7 +10,7 @@ const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 *
 router.use(auth);
 
 // POST /api/import/csv?platform=upwork
-router.post('/csv', upload.single('file'), (req, res) => {
+router.post('/csv', upload.single('file'), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ error: 'No file uploaded' });
     }
@@ -31,7 +31,7 @@ router.post('/csv', upload.single('file'), (req, res) => {
             });
         }
 
-        const result = storage.bulkInsert(entries);
+        const result = await storage.bulkInsert(entries);
 
         res.json({
             imported: result.imported,
